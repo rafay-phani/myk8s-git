@@ -1,0 +1,24 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: phani-cronjob6
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      parallelism: 250
+      successfulJobsHistoryLimit: 100
+      failedJobsHistoryLimit: 100
+      template:
+        spec:
+          containers:
+          - name: phani-cronjob6
+            image: alpine:latest
+            env:
+            - name: MY_SECRET
+              value: clear-secret
+            args:
+            - /bin/sh
+            - -c
+            - date; echo $MY_SECRET;
+          restartPolicy: OnFailure
